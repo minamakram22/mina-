@@ -1,0 +1,327 @@
+# define r1   PB_5
+# define r2   PB_0
+# define l1   PB_1
+# define l2   PB_4
+# define ob1  PB_7
+# define ob2  PB_6
+# define ob3  PB_2
+# define ob4  PA_6
+# define emgf PA_7
+# define emgb PA_5
+# define emgl PA_4
+# define emgr PA_3
+# define pu   PF_0
+
+
+
+void setup() {
+  // initialize the digital pin as an output.
+  pinMode(r1, OUTPUT);
+  pinMode(r2, OUTPUT);
+  pinMode(l1, OUTPUT);
+  pinMode(l2, OUTPUT);
+  pinMode(pu, OUTPUT);
+  pinMode(ob1, INPUT);
+  pinMode(ob2, INPUT);
+  pinMode(ob3, INPUT);
+  pinMode(ob4, INPUT);
+  pinMode(emgf, INPUT);
+  pinMode(emgb, INPUT);
+  pinMode(emgr, INPUT);
+pinMode(emgl, INPUT);
+
+
+
+  digitalWrite(pu, LOW);
+
+
+  attachInterrupt( emgf , emgm, RISING );
+  attachInterrupt( emgb , emgbk, RISING);
+ attachInterrupt( emgr , emgrr, RISING);
+  attachInterrupt( emgl , emgll, RISING);
+  attachInterrupt( ob4 , obb, RISING );
+
+  attachInterrupt( ob1 , obfl, RISING );
+  attachInterrupt( ob3 , obfr, RISING );
+  attachInterrupt( emgf , emgm, RISING );
+  attachInterrupt( ob2 , obff, RISING );
+
+}
+
+
+void loop() {
+  digitalWrite(r1, HIGH);
+  digitalWrite(r2, LOW);
+  digitalWrite(l1, HIGH);
+  digitalWrite(l2, LOW);
+}
+
+
+
+
+void obff() {
+
+  noInterrupts();
+  digitalWrite(r1, LOW);
+  digitalWrite(r2, LOW);
+  digitalWrite(l1, LOW);
+  digitalWrite(l2, LOW);
+  delay(1000);
+     if (digitalRead(emgf) == HIGH) {
+
+    emgm();
+
+
+  }
+  else if (digitalRead(emgf) == LOW) {
+
+    digitalWrite(r1, LOW);
+    digitalWrite(r2, LOW);
+    digitalWrite(l1, LOW);
+    digitalWrite(l2, LOW);
+    delay(100);
+    digitalWrite(r1, LOW);
+    digitalWrite(r2, HIGH);
+    digitalWrite(l1, LOW);
+    digitalWrite(l2, HIGH);
+
+    delay(900);
+
+    digitalWrite(r1, HIGH);
+    digitalWrite(r2, LOW);
+    digitalWrite(l1, LOW);
+    digitalWrite(l2, HIGH);
+
+
+
+    delay(1000);
+
+  }
+
+  interrupts();
+}
+
+void obb()
+{
+
+  noInterrupts();
+     if (digitalRead(emgf) == HIGH) {
+
+    emgm();
+
+
+  }
+    else if (digitalRead(emgf) == LOW) {
+
+    
+
+
+  
+  digitalWrite(r1, LOW);
+  digitalWrite(r2, LOW);
+  digitalWrite(l1, LOW);
+  digitalWrite(l2, LOW);
+  delay(100);
+  digitalWrite(r1, LOW);
+  digitalWrite(r2, HIGH);
+  digitalWrite(l1, HIGH);
+  digitalWrite(l2, LOW);
+
+  delay(900);
+    }
+  interrupts();
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+void obfl() {
+  noInterrupts();
+  digitalWrite(r1, LOW);
+  digitalWrite(r2, LOW);
+  digitalWrite(l1, LOW);
+  digitalWrite(l2, LOW);
+  delay(800);
+     if (digitalRead(emgf) == HIGH) {
+
+    emgm();
+
+
+  }
+    else if (digitalRead(emgf) == LOW) {
+
+   
+  digitalWrite(r1, LOW);
+  digitalWrite(r2, LOW);
+  digitalWrite(l1, LOW);
+  digitalWrite(l2, LOW);
+  delay(500);
+  digitalWrite(r1, LOW);
+  digitalWrite(r2, HIGH);
+  digitalWrite(l1, LOW);
+  digitalWrite(l2, HIGH);
+  delay(900);
+  digitalWrite(r1, LOW);
+  digitalWrite(r2, HIGH);
+  digitalWrite(l1, HIGH);
+  digitalWrite(l2, LOW);
+
+  delay(1000);
+    }
+
+
+    
+  interrupts();
+}
+
+void obfr() {
+  noInterrupts();
+  digitalWrite(r1, LOW);
+  digitalWrite(r2, LOW);
+  digitalWrite(l1, LOW);
+  digitalWrite(l2, LOW);
+  delay(800);
+     if (digitalRead(emgf) == HIGH) {
+
+    emgm();
+
+
+  }
+    else if (digitalRead(emgf) == LOW) {
+
+   
+  digitalWrite(r1, LOW);
+  digitalWrite(r2, LOW);
+  digitalWrite(l1, LOW);
+  digitalWrite(l2, LOW);
+  delay(500);
+  digitalWrite(r1, LOW);
+  digitalWrite(r2, HIGH);
+  digitalWrite(l1, LOW);
+  digitalWrite(l2, HIGH);
+  delay(900);
+  digitalWrite(r1, HIGH);
+  digitalWrite(r2, LOW);
+  digitalWrite(l1, LOW);
+  digitalWrite(l2, HIGH);
+
+  delay(1000);
+
+    }
+   
+ 
+  interrupts();
+}
+
+void emgm () {
+  noInterrupts();
+
+  digitalWrite(r1, LOW);
+  digitalWrite(r2, LOW);
+  digitalWrite(l1, LOW);
+  digitalWrite(l2, LOW);
+  delay(100);
+
+    digitalWrite(r1, LOW);
+    digitalWrite(r2, LOW);
+    digitalWrite(l1, LOW);
+    digitalWrite(l2, LOW);
+    delay(100);
+    analogWrite(pu, 255 );
+    delay(10000);
+
+  digitalWrite(pu, LOW);
+  interrupts();
+
+}
+
+
+void emgbk() {
+  noInterrupts();
+  int n = 0;
+  while (digitalRead(emgf) == LOW)
+  {
+    n++;
+    obfl();
+    if (n == 5)
+    {
+      break;
+
+    }
+
+
+
+
+  }
+if(digitalRead(emgf)==HIGH)
+{
+  emgm();
+}
+
+  interrupts();
+}
+
+
+void emgrr() {
+  noInterrupts();
+  int n = 0;
+  
+  while (digitalRead(emgf) == LOW)
+  {
+    n++;
+    obfl();
+    if (n == 7)
+    {
+      break;
+
+    }
+
+
+
+
+  }
+if(digitalRead(emgf)==HIGH)
+{
+  emgm();
+}
+
+  interrupts();
+}
+
+void emgll() {
+  noInterrupts();
+  int n = 0;
+  
+  while (digitalRead(emgf) == LOW)
+  {
+    n++;
+    obfr();
+    if (n == 7)
+    {
+      break;
+
+    }
+
+
+
+
+  }
+if(digitalRead(emgf)==HIGH)
+{
+  emgm();
+}
+
+  interrupts();
+}
+
+
